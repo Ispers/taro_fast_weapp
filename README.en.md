@@ -1,7 +1,7 @@
 # taro_fast_weapp
 
 #### Introduce
-taro_fast (currently in the development stage, we sincerely invite developers to join. If you have ideas, please contact me to participate in the development) is a front-end and back-end solution for Taro + SpringBoot WeChat mini programs (also providing a web-based solution for umi + SpringBoot administrators). It is a private tool that allows programmers to quickly develop based on this template and focus on business logic.
+taro_fast_weapp (currently in the development stage, we sincerely invite developers to join. If you have ideas, please contact me to participate in the development) is a front-end and back-end solution for Taro + SpringBoot WeChat mini programs (also providing a web-based solution for umi + SpringBoot administrators). It is a private tool that allows programmers to quickly develop based on this template and focus on business logic.
 
 #### Project Directory
 **Note: Detailed instructions for each project, including usage techniques, architecture, and installation tutorials, can be found in the README.md folder**
