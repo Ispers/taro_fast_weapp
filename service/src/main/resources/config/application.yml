@@ -1,0 +1,27 @@
+server:
+  port: 8083
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+
+spring:
+  jackson:
+    default-property-inclusion: always
+  mvc:
+    static-path-pattern: /upload/**
+  freemarker:
+    check-template-location: false
+  profiles:
+    active: dev
+#    active: prod
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+mybatis-plus:
+  configuration:
+    # 关闭二级缓存
+    cache-enabled: false
+    # 设置本地缓存作用域
+    local-cache-scope: SESSION

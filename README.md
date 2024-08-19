@@ -3,35 +3,30 @@
 #### 介绍
 taro_fast（目前处于开发阶段，诚邀开发者加入，有想法的可以联系本人参与开发）是一套基于Taro+SpringBoot微信小程序前后端解决方案（同时也提供基于umi + SpringBoot管理员web端），接私活利器，使广大程序员可以基于此模版快速开发，专注于业务逻辑即可。
 
-#### 软件架构
-软件架构说明
+#### 项目目录
+**注：各个工程详细说明，使用技术、架构、安装教程详见子文件夹 README.md 文件**
 
+taro_fast_weapp文件夹下包含：
+- service 为 SpringBoot 后台服务端
+- weapp 为 Taro + NutUI-React 微信小程序端
+- web 为 umi + antd 后台管理端
+- sql 为项目数据库文件，导入数据时选择 utf8mb4（如需支持emoji表情符号） 或 utf8 格式编码
 
-#### 安装教程
+#### 项目源码
+- gitee: [https://gitee.com/sunmr0316/taro_fast_weapp](https://gitee.com/sunmr0316/taro_fast_weapp)
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 主要特性
+- 使用最新技术栈，社区资源丰富
+- 高效率开发，接私活利器
+- 支持数据字典，可方便地对状态进行管理
+- 支持接口限流，避免恶意请求
+- 对一些常用地前端组件封装
+- 前后端统一异常拦截处理，统一异常处理
 
-#### 使用说明
+#### 反馈交流
+QQ交流群：993719568
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+#### 诚邀开发者
+如果您也想为该项目贡献一份力量，可以通过以下联系方式联系作者
+- qq: 1257032868
+- Email: [1257032868@qq.com](1257032868@qq.com)

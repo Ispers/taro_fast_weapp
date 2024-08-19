@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.umi.admin.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.umi.admin.domain.User">
+        <id column="user_id" property="userId"/>
+        <result column="wx_openid" property="wxOpenid"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="real_name" property="realName"/>
+        <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="birthday" property="birthday"/>
+        <result column="gender" property="gender"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="enabled" property="enabled"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="wx_unionid" property="wxUnionid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="pwd_reset_time" property="pwdResetTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="dept_id" property="deptId"/>
+    </resultMap>
+
+    <sql id="userColumn">
+       user_id,
+       wx_openid,
+       username,
+       password,
+       nickname,
+       real_name,
+       address,
+       phone,
+       email,
+       birthday,
+       gender,
+       avatar_url,
+       enabled,
+       is_admin,
+       wx_unionid,
+       create_time,
+       create_by,
+       update_time,
+       update_by,
+       pwd_reset_time,
+       deleted,
+       dept_id
+    </sql>
+
+    <select id="selectUserByUserId" resultMap="userResultMap">
+        select
+        <include refid="userColumn" />
+        from tb_user
+        where deleted = 0
+        and user_id = #{userId}
+    </select>
+
+    <select id="selectUserByUsernameAndPassword" resultMap="userResultMap">
+        select
+        <include refid="userColumn"/>
+        from tb_user
+        where deleted = 0
+        and username = #{username}
+        and password = #{password}
+    </select>
+
+    <select id="selectUserByWxOpenId" resultMap="userResultMap">
+        select
+        <include refid="userColumn"/>
+        from tb_user
+        where deleted = 0
+        and wx_openid = #{openId}
+    </select>
+
+    <insert id="wxInsertUser" parameterType="com.umi.admin.domain.User">
+        insert into tb_user (wx_openid, nickname, gender, avatar_url, is_admin, create_time)
+        values (#{wxOpenid}, #{nickname}, #{gender}, #{avatarUrl}, #{isAdmin}, now())
+    </insert>
+
+    <select id="selectUserInfo" resultType="java.util.Map">
+        select user_id       userId,
+               wx_openid     wxOpenid,
+               username,
+               nickname,
+               real_name     realName,
+               address,
+               phone,
+               email,
+               birthday,
+               gender,
+               avatar_url    avatarUrl,
+               d.enabled,
+               is_admin      isAdmin,
+               wx_unionid    wxUnionid,
+               u.create_time createTime,
+               d.dept_id     deptId,
+               d.name        deptName
+        from tb_user u
+                 left join tb_dept d
+                           on d.dept_id = u.dept_id
+                               and u.deleted = 0
+                               and d.deleted = 0
+                               and d.enabled = 1
+                               and u.user_id = #{userId}
+    </select>
+</mapper>

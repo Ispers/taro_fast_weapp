@@ -1,0 +1,11 @@
+import '@/assets/less/loading.less'
+
+const LoadingPage = () => {
+    return (
+        <div className='wrap'>
+            <div className="loader"></div>
+        </div>
+    )
+};
+
+export default LoadingPage;

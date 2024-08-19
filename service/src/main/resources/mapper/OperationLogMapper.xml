@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.umi.admin.mapper.OperationLogMapper">
+    <resultMap id="LogResultMap" type="com.umi.admin.domain.Log">
+        <id column="id" property="id"/>
+        <result column="operation_user_id" property="operationUserId"/>
+        <result column="operation_username" property="operationUsername"/>
+        <result column="operation_nickname" property="operationNickname"/>
+        <result column="operation_module" property="operationModule"/>
+        <result column="operation_events" property="operationEvents"/>
+        <result column="operation_url" property="operationUrl"/>
+        <result column="operation_data" property="operationData"/>
+        <result column="operation_status" property="operationStatus"/>
+        <result column="operation_ip" property="operationIp"/>
+        <result column="operation_result" property="operationResult"/>
+        <result column="add_time" property="addTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+  <insert id="insertOperationLog" parameterType="com.umi.admin.domain.OperationLog">
+      insert into tb_operation_log
+      values (null, #{operationUserId}, #{operationUsername}, #{operationNickname}, #{operationModule}, #{operationEvents}, #{operationUrl},#{operationData},#{operationStatus},#{operationIp},#{operationResult},#{addTime},#{deleted})
+  </insert>
+
+  <select id="selectOperationLog" resultMap="LogResultMap" parameterType="com.umi.admin.domain.dto.OperationLogDto">
+      select id,
+             operation_user_id,
+             operation_username,
+             operation_nickname,
+             operation_module,
+             operation_events,
+             operation_url,
+             operation_data,
+             operation_status,
+             operation_ip,
+             operation_result,
+             add_time,
+             deleted
+      from tb_operation_log
+      where deleted = 0
+      <if test="operationLogDto.username != null and operationLogDto.username != ''">
+          and operation_username = #{operationLogDto.username}
+      </if>
+      <if test="operationLogDto.operationStatus != null">
+          and operation_status = #{operationLogDto.operationStatus}
+      </if>
+      <if test="operationLogDto.beginDate != null and operationLogDto.beginDate != '' and operationLogDto.endDate != null and operationLogDto.endDate != ''">
+          and add_time between concat(#{operationLogDto.beginDate}, ' 00:00:00') and concat(#{operationLogDto.endDate}, ' 23:59:59')
+      </if>
+      order by add_time desc
+  </select>
+</mapper>
