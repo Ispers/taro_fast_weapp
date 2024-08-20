@@ -14,7 +14,7 @@ taro_fast_weapp folder contains:
 
 #### Project Source Code
 - gitee: [https://gitee.com/sunmr0316/taro_fast_weapp](https://gitee.com/sunmr0316/taro_fast_weapp)
-- github [https://github.com/Ispers/taro_fast_weapp.git](https://github.com/Ispers/taro_fast_weapp.git)
+- github [https://github.com/Ispers/taro_fast_weapp](https://github.com/Ispers/taro_fast_weapp)
 
 #### Main Characteristics
 - Utilizing the latest technology stack and abundant community resources

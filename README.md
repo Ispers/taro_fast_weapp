@@ -14,7 +14,7 @@ taro_fast_weapp文件夹下包含：
 
 #### 项目源码
 - gitee: [https://gitee.com/sunmr0316/taro_fast_weapp](https://gitee.com/sunmr0316/taro_fast_weapp)
-- github [https://github.com/Ispers/taro_fast_weapp.git](https://github.com/Ispers/taro_fast_weapp.git)
+- github [https://github.com/Ispers/taro_fast_weapp](https://github.com/Ispers/taro_fast_weapp)
 
 #### 主要特性
 - 使用最新技术栈，社区资源丰富
