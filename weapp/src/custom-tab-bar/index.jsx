@@ -9,24 +9,32 @@ const tab = {
     activeColor: '#3768fa',
     list: [
         {
-            pagePath: 'index/index',
-            text: '首页',
-            icon: <Home size={18} />
+            pagePath: 'index/index', // tabBar 路由
+            text: '首页', // tabBar 文字
+            icon: <Home size={18} />, // tabBar 图标
+            rdValue: 0, // 徽标中显示的内容，支持数字、字符和自定义内容
+            isDot: false // 徽标是否为小点
         },
         {
             pagePath: 'product/index',
             text: '商品',
-            icon: <Apps size={18} />
+            icon: <Apps size={18} />,
+            rdValue: 0,
+            isDot: true
         },
         {
             pagePath: 'docs/index',
             text: '文档',
-            icon: <Receipt size={18} />
+            icon: <Receipt size={18} />,
+            rdValue: 0,
+            isDot: false
         },
         {
             pagePath: 'me/index',
             text: '我的',
-            icon: <User size={18} />
+            icon: <User size={18} />,
+            rdValue: 2,
+            isDot: false
         },
     ]
 }
@@ -53,7 +61,9 @@ const CustomTabBar = () => {
                     return <Tabbar.Item
                         key={index}
                         title={item.text}
-                        icon={item.icon} />
+                        icon={item.icon}
+                        value={item.rdValue} 
+                        dot={item.isDot} />
                 })
             }
         </Tabbar>
