@@ -27,11 +27,11 @@ export const patch = (routes, extraRoutes) => {
         // 添加 '/' 重定向到 排序为1 的页面
         routes[routerIndex].routes.unshift({
             path: '/',
-            element: <Navigate to={extraRoutes.find(item => item.sort === 1)?.url} replace />,
+            element: <Navigate to={extraRoutes.find(item => item.sort == 1)?.url} replace />,
         });
         routes[routerIndex].children.push({
             path: '/',
-            element: <Navigate to={extraRoutes.find(item => item.sort === 1)?.url} replace />,
+            element: <Navigate to={extraRoutes.find(item => item.sort == 1)?.url} replace />,
         })
     }
 };
@@ -48,10 +48,6 @@ export const loopMenuItem = (menus, pId) => {
     return menus.flatMap((item) => {
         let Component = null;
 
-        if(item.type == 1){
-            return;
-        }
-
         if (item.page) {
             // 防止配置了路由，但本地暂未添加对应的页面，产生的错误
             Component = React.lazy(() => new Promise((resolve, reject) => {
@@ -60,42 +56,12 @@ export const loopMenuItem = (menus, pId) => {
                     .catch((error) => resolve(import(`@/pages/404.jsx`)))
             }))
         }
-
-        if (item.children) {
+        if (item.type == 1) {
+            // 外链菜单处理
             return [
                 {
                     path: item.url,
-                    title: item.menuName,
-                    icon: item.icon,
-                    id: item.menuId,
-                    parentId: pId,
-                    sort: item.sort,
-                    hidden: item.hidden,
-                    routes: [
-                        {
-                            path: item.url,
-                            element: <Navigate to={item.children[0].url} replace />,
-                        },
-                        ...loopMenuItem(item.children, item.menuId)
-                    ],
-                    children: [
-                        {
-                            path: item.url,
-                            element: <Navigate to={item.children[0].url} replace />,
-                        },
-                        ...loopMenuItem(item.children, item.menuId)
-                    ]
-                }
-            ]
-        } else {
-            return [
-                {
-                    path: item.url,
-                    element: (
-                        <React.Suspense fallback={<div>Loading...</div>}>
-                            {Component && <Component />}
-                        </React.Suspense>
-                    ),
+                    element: (<></>),
                     title: item.menuName,
                     icon: item.icon,
                     id: item.menuId,
@@ -104,6 +70,52 @@ export const loopMenuItem = (menus, pId) => {
                     hidden: item.hidden
                 }
             ]
+        } else {
+            // 内部菜单处理
+            if (item.children) {
+                return [
+                    {
+                        path: item.url,
+                        title: item.menuName,
+                        icon: item.icon,
+                        id: item.menuId,
+                        parentId: pId,
+                        sort: item.sort,
+                        hidden: item.hidden,
+                        routes: [
+                            {
+                                path: item.url,
+                                element: <Navigate to={item.children[0].url} replace />,
+                            },
+                            ...loopMenuItem(item.children, item.menuId)
+                        ],
+                        children: [
+                            {
+                                path: item.url,
+                                element: <Navigate to={item.children[0].url} replace />,
+                            },
+                            ...loopMenuItem(item.children, item.menuId)
+                        ]
+                    }
+                ]
+            } else {
+                return [
+                    {
+                        path: item.url,
+                        element: item.type == 0 ? (
+                            <React.Suspense fallback={<div>Loading...</div>}>
+                                {Component && <Component />}
+                            </React.Suspense>
+                        ) : (<></>),
+                        title: item.menuName,
+                        icon: item.icon,
+                        id: item.menuId,
+                        parentId: pId,
+                        sort: item.sort,
+                        hidden: item.hidden
+                    }
+                ]
+            }
         }
     })
 }

@@ -1,12 +1,5 @@
 export default [
     {
-        path: '/external-link',
-        component: './ExternalLink',
-        target: '_blank',
-        layout: false,
-        hidden: true
-    },
-    {
         path: "/Login",
         title: "登录",
         component: "./Login/index",

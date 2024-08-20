@@ -98,7 +98,13 @@ const MenuComponent = () => {
 
     // 菜单选中时更改路由
     const menuSelect = (selectItem) => {
-        history.push(selectItem.key);
+        if(selectItem.key.substr(0,1) === '/'){
+            // 内部菜单
+            history.push(selectItem.key);
+        }else {
+            // 外链菜单处理
+            window.open(selectItem.key, '_blank');
+        }
     };
 
     return (
