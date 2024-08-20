@@ -13,7 +13,7 @@ spring:
     check-template-location: false
   profiles:
     active: dev
-#    active: prod
+  #    active: prod
   data:
     redis:
       repositories:

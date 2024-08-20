@@ -1,8 +1,8 @@
 package com.fastweapp.fw.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fastweapp.fw.exception.BadRequestException;
 import com.fastweapp.fw.common.Constants;
+import com.fastweapp.fw.exception.BadRequestException;
 import lombok.extern.log4j.Log4j2;
 
 import java.net.URLEncoder;

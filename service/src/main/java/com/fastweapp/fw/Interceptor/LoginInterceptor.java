@@ -1,13 +1,13 @@
 package com.fastweapp.fw.Interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.fastweapp.fw.common.Constants;
+import com.fastweapp.fw.domain.User;
+import com.fastweapp.fw.exception.BadRequestException;
 import com.fastweapp.fw.jwt.CurrentUser;
 import com.fastweapp.fw.jwt.JwtInfo;
 import com.fastweapp.fw.jwt.JwtTool;
 import com.fastweapp.fw.jwt.RedisKey;
-import com.fastweapp.fw.common.Constants;
-import com.fastweapp.fw.domain.User;
-import com.fastweapp.fw.exception.BadRequestException;
 import com.fastweapp.fw.service.UserService;
 import com.fastweapp.fw.utils.BeanUtil;
 import com.fastweapp.fw.utils.RedisUtils;

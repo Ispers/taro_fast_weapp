@@ -1,7 +1,7 @@
 package com.fastweapp.fw.controller.weapp;
 
-import com.fastweapp.fw.jwt.CurrentUser;
 import com.fastweapp.fw.annotation.Log;
+import com.fastweapp.fw.jwt.CurrentUser;
 import com.fastweapp.fw.utils.ResultResponse;
 import com.fastweapp.fw.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;

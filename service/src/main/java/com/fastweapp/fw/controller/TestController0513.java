@@ -3,9 +3,9 @@ package com.fastweapp.fw.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastweapp.fw.annotation.Log;
+import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.domain.qc.UserQueryCriteria;
 import com.fastweapp.fw.mapper.UserMapper;
-import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.utils.PageResult;
 import com.fastweapp.fw.utils.QueryBuilderUtil;
 import com.fastweapp.fw.utils.ResultResponse;

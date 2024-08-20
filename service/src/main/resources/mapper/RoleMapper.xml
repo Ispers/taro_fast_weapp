@@ -4,14 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.fastweapp.fw.mapper.RoleMapper">
-
     <select id="selectRoleByUserId" resultType="java.util.Map">
         select r.role_id roleId, r.name, r.code, r.description
         from tb_users_roles ur,
-             tb_role r
+        tb_role r
         where ur.role_id = r.role_id
-          and r.deleted = 0
-          and r.enabled = 1
-          and ur.user_id = #{userId}
+        and r.deleted = 0
+        and r.enabled = 1
+        and ur.user_id = #{userId}
     </select>
 </mapper>

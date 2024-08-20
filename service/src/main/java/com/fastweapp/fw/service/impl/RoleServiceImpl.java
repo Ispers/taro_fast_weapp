@@ -1,7 +1,7 @@
 package com.fastweapp.fw.service.impl;
 
-import com.fastweapp.fw.service.RoleService;
 import com.fastweapp.fw.mapper.RoleMapper;
+import com.fastweapp.fw.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

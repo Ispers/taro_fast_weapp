@@ -54,7 +54,7 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         convertedMenus.forEach(item -> {
-            if(item.get("children").toString().equals("[]")) {
+            if (item.get("children").toString().equals("[]")) {
                 item.remove("children");
             }
         });

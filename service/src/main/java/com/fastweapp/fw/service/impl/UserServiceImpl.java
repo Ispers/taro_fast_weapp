@@ -1,12 +1,12 @@
 package com.fastweapp.fw.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fastweapp.fw.domain.dto.ModifyPasswordDto;
-import com.fastweapp.fw.mapper.UserMapper;
-import com.fastweapp.fw.service.UserService;
 import com.fastweapp.fw.common.Constants;
 import com.fastweapp.fw.domain.User;
+import com.fastweapp.fw.domain.dto.ModifyPasswordDto;
 import com.fastweapp.fw.exception.BadRequestException;
+import com.fastweapp.fw.mapper.UserMapper;
+import com.fastweapp.fw.service.UserService;
 import com.fastweapp.fw.utils.MD5Util;
 import com.fastweapp.fw.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;

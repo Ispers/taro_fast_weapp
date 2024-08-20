@@ -20,36 +20,40 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
 
-  <insert id="insertOperationLog" parameterType="com.fastweapp.fw.domain.OperationLog">
-      insert into tb_operation_log
-      values (null, #{operationUserId}, #{operationUsername}, #{operationNickname}, #{operationModule}, #{operationEvents}, #{operationUrl},#{operationData},#{operationStatus},#{operationIp},#{operationResult},#{addTime},#{deleted})
-  </insert>
+    <insert id="insertOperationLog" parameterType="com.fastweapp.fw.domain.OperationLog">
+        insert into tb_operation_log
+        values (null, #{operationUserId}, #{operationUsername}, #{operationNickname}, #{operationModule},
+        #{operationEvents},
+        #{operationUrl},#{operationData},#{operationStatus},#{operationIp},#{operationResult},#{addTime},#{deleted})
+    </insert>
 
-  <select id="selectOperationLog" resultMap="LogResultMap" parameterType="com.fastweapp.fw.domain.dto.OperationLogDto">
-      select id,
-             operation_user_id,
-             operation_username,
-             operation_nickname,
-             operation_module,
-             operation_events,
-             operation_url,
-             operation_data,
-             operation_status,
-             operation_ip,
-             operation_result,
-             add_time,
-             deleted
-      from tb_operation_log
-      where deleted = 0
-      <if test="operationLogDto.username != null and operationLogDto.username != ''">
-          and operation_username = #{operationLogDto.username}
-      </if>
-      <if test="operationLogDto.operationStatus != null">
-          and operation_status = #{operationLogDto.operationStatus}
-      </if>
-      <if test="operationLogDto.beginDate != null and operationLogDto.beginDate != '' and operationLogDto.endDate != null and operationLogDto.endDate != ''">
-          and add_time between concat(#{operationLogDto.beginDate}, ' 00:00:00') and concat(#{operationLogDto.endDate}, ' 23:59:59')
-      </if>
-      order by add_time desc
-  </select>
+    <select id="selectOperationLog" resultMap="LogResultMap"
+            parameterType="com.fastweapp.fw.domain.dto.OperationLogDto">
+        select id,
+        operation_user_id,
+        operation_username,
+        operation_nickname,
+        operation_module,
+        operation_events,
+        operation_url,
+        operation_data,
+        operation_status,
+        operation_ip,
+        operation_result,
+        add_time,
+        deleted
+        from tb_operation_log
+        where deleted = 0
+        <if test="operationLogDto.username != null and operationLogDto.username != ''">
+            and operation_username = #{operationLogDto.username}
+        </if>
+        <if test="operationLogDto.operationStatus != null">
+            and operation_status = #{operationLogDto.operationStatus}
+        </if>
+        <if test="operationLogDto.beginDate != null and operationLogDto.beginDate != '' and operationLogDto.endDate != null and operationLogDto.endDate != ''">
+            and add_time between concat(#{operationLogDto.beginDate}, ' 00:00:00') and
+            concat(#{operationLogDto.endDate}, ' 23:59:59')
+        </if>
+        order by add_time desc
+    </select>
 </mapper>
