@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.umi.admin.mapper.UserMapper">
-    <resultMap id="userResultMap" type="com.umi.admin.domain.User">
+<mapper namespace="com.fastweapp.fw.mapper.UserMapper">
+    <resultMap id="userResultMap" type="com.fastweapp.fw.domain.User">
         <id column="user_id" property="userId"/>
         <result column="wx_openid" property="wxOpenid"/>
         <result column="username" property="username"/>
@@ -79,9 +79,9 @@
         and wx_openid = #{openId}
     </select>
 
-    <insert id="wxInsertUser" parameterType="com.umi.admin.domain.User">
-        insert into tb_user (wx_openid, nickname, gender, avatar_url, is_admin, create_time)
-        values (#{wxOpenid}, #{nickname}, #{gender}, #{avatarUrl}, #{isAdmin}, now())
+    <insert id="wxInsertUser" parameterType="com.fastweapp.fw.domain.User">
+        insert into tb_user (wx_openid, nickname, gender, avatar_url, enabled, is_admin, create_time)
+        values (#{wxOpenid}, #{nickname}, #{gender}, #{avatarUrl},#{enabled}, #{isAdmin}, now())
     </insert>
 
     <select id="selectUserInfo" resultType="java.util.Map">

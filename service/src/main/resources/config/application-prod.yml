@@ -16,6 +16,7 @@ spring:
     database: ${REDIS_DB:0}
     host: ${REDIS_HOST:127.0.0.1}
     port: ${REDIS_PORT:6379}
+    password: ${REDIS_PWD:xxxxxxx}
     # 连接超时时间
     timeout: 1800000
     lettuce:
@@ -32,9 +33,9 @@ spring:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      url: jdbc:log4jdbc:mysql://127.0.0.1:3306/clinic0520?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+      url: jdbc:log4jdbc:mysql://xxx.xxx.xx.xx:3306/xxxxxx?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
       username: root
-      password: 1312004620a
+      password: xxxxxxxxxx
       # 初始连接数
       initial-size: 5
       # 最小连接数

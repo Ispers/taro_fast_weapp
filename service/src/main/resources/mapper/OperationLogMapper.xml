@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.umi.admin.mapper.OperationLogMapper">
-    <resultMap id="LogResultMap" type="com.umi.admin.domain.Log">
+<mapper namespace="com.fastweapp.fw.mapper.OperationLogMapper">
+    <resultMap id="LogResultMap" type="com.fastweapp.fw.domain.Log">
         <id column="id" property="id"/>
         <result column="operation_user_id" property="operationUserId"/>
         <result column="operation_username" property="operationUsername"/>
@@ -20,12 +20,12 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
 
-  <insert id="insertOperationLog" parameterType="com.umi.admin.domain.OperationLog">
+  <insert id="insertOperationLog" parameterType="com.fastweapp.fw.domain.OperationLog">
       insert into tb_operation_log
       values (null, #{operationUserId}, #{operationUsername}, #{operationNickname}, #{operationModule}, #{operationEvents}, #{operationUrl},#{operationData},#{operationStatus},#{operationIp},#{operationResult},#{addTime},#{deleted})
   </insert>
 
-  <select id="selectOperationLog" resultMap="LogResultMap" parameterType="com.umi.admin.domain.dto.OperationLogDto">
+  <select id="selectOperationLog" resultMap="LogResultMap" parameterType="com.fastweapp.fw.domain.dto.OperationLogDto">
       select id,
              operation_user_id,
              operation_username,

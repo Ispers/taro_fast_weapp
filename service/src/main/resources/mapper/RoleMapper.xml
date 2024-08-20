@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.umi.admin.mapper.RoleMapper">
+<mapper namespace="com.fastweapp.fw.mapper.RoleMapper">
 
     <select id="selectRoleByUserId" resultType="java.util.Map">
         select r.role_id roleId, r.name, r.code, r.description
