@@ -1,6 +1,14 @@
 import Taro from '@tarojs/taro';
 
 /**
+ * 生成随机颜色
+ * @returns {String} 随机颜色 #333333
+ */
+export function getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+
+/**
  * 给定日期如：'2024-08-01' 距离今天天数
  * @param {String} date 给定日期 如：'2023-08-01'
  * @returns {Number} 距离今天天数
