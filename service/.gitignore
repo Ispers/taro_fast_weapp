@@ -2,9 +2,12 @@
 
 # production
 target
+out
 
 # misc
 .DS_Store
 .idea
 .vscode
 
+# pid
+application.pid
