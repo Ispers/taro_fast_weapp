@@ -1,12 +1,12 @@
 import { Button, Result } from 'antd';
 import { history } from 'umi';
 
-const Page404 = () => {
+const Page403 = () => {
     return (
         <Result
-            status="404"
-            title="页面跑丢啦"
-            subTitle="对不起，您访问的页面不存在"
+            status="403"
+            title="管理员说你不能进"
+            subTitle="抱歉，您无权访问此页面"
             extra={
                 <Button
                     type="primary"
@@ -18,4 +18,4 @@ const Page404 = () => {
     )
 }
 
-export default Page404;
+export default Page403;

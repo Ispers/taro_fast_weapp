@@ -1,6 +1,6 @@
 // 全局常量配置
 export default {
-    APP_TITLE: 'taro fast weapp 后台管理系统', // 网站标题
+    APP_TITLE: 'TF 后台管理系统', // 网站标题
     FOOTER_TEXT: 'taro-fast-weapp ©2024 Created by sunmr', // 页脚文字
     TOKEN_KEY: 'TF-ADMIN-TOKEN', // token key
     TIME_OUT: 5000, //请求超时时间

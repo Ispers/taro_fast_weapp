@@ -75,7 +75,7 @@ service.interceptors.response.use(
             location.reload()
           })
         } else if (code == 403) {
-          history.push('/401');
+          history.push('/403');
         } else {
           const errorMsg = error.response.data.message
           if (errorMsg !== undefined) {
