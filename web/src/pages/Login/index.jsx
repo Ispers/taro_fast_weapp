@@ -152,7 +152,7 @@ const LoginPage = () => {
             span: 24
           }}
         >
-          <div className='title'>UMI-ADMIN 后台管理系统</div>
+          <div className='title'>{APP_TITLE}</div>
         </Form.Item>
         <Form.Item
           name="username"

@@ -2,8 +2,12 @@
   "private": true,
   "author": "sunmr <1257032868@qq.com>",
   "scripts": {
-    "dev": "umi dev",
-    "build": "umi build",
+    "analyze": "ANALYZE=1 umi dev",
+    "dev": "cross-env UMI_ENV=development umi dev",
+    "dev:prod": "cross-env UMI_ENV=production umi dev",
+    "build": "cross-env umi build",
+    "build:dev": "cross-env UMI_ENV=development umi build",
+    "build:prod": "cross-env UMI_ENV=production umi build",
     "postinstall": "umi setup",
     "setup": "umi setup",
     "start": "npm run dev"
@@ -25,6 +29,7 @@
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "@umijs/plugins": "^4.3.6",
+    "cross-env": "^7.0.3",
     "typescript": "^5.0.3"
   }
 }

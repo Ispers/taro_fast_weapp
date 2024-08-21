@@ -1,7 +1,7 @@
 import routers from './router';
 import define from './define';
 
-const APP_BASE_API = "http://localhost:8083";
+const APP_BASE_API = "https://xxx.xxxx.xx";
 
 export default {
     routes: routers,
