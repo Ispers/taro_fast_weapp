@@ -44,7 +44,7 @@ public class LogAspect {
     /**
      * 切点---controller下的所有文件
      */
-    @Pointcut(value = "execution(* com.umi.admin.controller..*(..)))")
+    @Pointcut(value = "execution(* com.fastweapp.fw.controller..*(..)))")
     public void logPointcut() {
     }
 

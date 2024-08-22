@@ -1,7 +1,6 @@
 import { Breadcrumb, Button, Layout, Dropdown } from 'antd';
 const { Header } = Layout;
 import '@/assets/less/layout.less'
-import avatar from '@/assets/images/avatar.png';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import {
@@ -44,6 +43,7 @@ const findRoutesByPath = (routes, targetPath) => {
 }
 
 const HeaderComponent = (props) => {
+    const { user } = useSelector(state => state.global);
     const [breadcrumbItems, setBreadcrumbItems] = useState([]);
     const { routers, currentRoutePath } = useSelector(state => state.global);
 
@@ -107,14 +107,14 @@ const HeaderComponent = (props) => {
             </div>
 
             <div className='headder-right'>
-                <div>测试用户1</div>
+                <div>{user.nickname}</div>
                 {/* <img src={avatar} /> */}
                 <Dropdown
                     menu={{ items: dropdownItems, onClick: dropdownOnclick }}
                     placement="bottomLeft"
                     arrow
                 >
-                    <img src={avatar} />
+                    <img src={user.avatarUrl} />
                 </Dropdown>
             </div>
         </Header>

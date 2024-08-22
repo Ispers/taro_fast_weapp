@@ -7,7 +7,6 @@ import { history } from "umi";
 
 // 根据路由表生成菜单项
 const createMenuItemsByRoutes = (routes) => {
-    console.log('routes', routes);
     let menuItems = [];
     for (let i = 0; i < routes.length; i++) {
         // 判断是否为处理路由补充的重定向路径（只读取配置路由表）
@@ -24,7 +23,6 @@ const createMenuItemsByRoutes = (routes) => {
             menuItems.push(item);
         }
     }
-    console.log('menuItems: ', menuItems);
     return menuItems;
 }
 

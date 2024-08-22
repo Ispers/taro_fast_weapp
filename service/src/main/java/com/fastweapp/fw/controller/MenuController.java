@@ -1,6 +1,7 @@
 package com.fastweapp.fw.controller;
 
 import com.fastweapp.fw.annotation.Log;
+import com.fastweapp.fw.domain.dto.MenuDto;
 import com.fastweapp.fw.service.MenuService;
 import com.fastweapp.fw.utils.ResultResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,16 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping("/getCurrentUserMenuInfo")
-    @Log(module = "菜单", events = "获取当前登录用户内部菜单（路由）")
+    @Log(module = "菜单", events = "获取当前登录用户菜单（路由）")
     public ResultResponse<List<Map<String, Object>>> getCurrentUserMenuInfo() {
         List<Map<String, Object>> res = menuService.getCurrentUserMenuInfo();
-        return ResultResponse.success("获取当前登录用户内部菜单（路由）信息", res);
+        return ResultResponse.success("获取当前登录用户菜单（路由）信息成功", res);
+    }
+
+    @GetMapping("/getMenuInfo")
+    @Log(module = "菜单", events = "获取菜单（路由）")
+    public ResultResponse<List<Map<String, Object>>> getMenuInfo(MenuDto dto) {
+        List<Map<String, Object>> res = menuService.getMenuInfo(dto);
+        return ResultResponse.success("获取菜单（路由）信息成功", res);
     }
 }

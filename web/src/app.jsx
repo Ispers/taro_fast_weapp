@@ -8,6 +8,10 @@ import { getToken } from '@/utils/auth';
 import { history, matchRoutes } from 'umi';
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css'// progress bar style
+import zhCN from 'antd/locale/zh_CN';
+// for date-picker i18n
+import 'dayjs/locale/zh-cn';
+import { ConfigProvider } from "antd";
 
 /** 变量*/
 let extraRoutes;
@@ -63,7 +67,7 @@ export function rootContainer(container, args) {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                {container}
+                <ConfigProvider locale={zhCN}>{container}</ConfigProvider>
             </PersistGate>
         </Provider>
     );

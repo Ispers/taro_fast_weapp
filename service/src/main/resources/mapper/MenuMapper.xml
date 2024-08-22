@@ -6,25 +6,48 @@
 <mapper namespace="com.fastweapp.fw.mapper.MenuMapper">
     <select id="selectMenuByRoleIds" resultType="java.util.Map">
         select distinct (m.menu_id) menuId,
-        pid,
-        type,
-        menu_name menuName,
-        page,
-        sort,
-        icon,
-        url,
-        hidden
+                        pid,
+                        type,
+                        menu_name   menuName,
+                        page,
+                        sort,
+                        icon,
+                        url,
+                        hidden
         from tb_roles_menus rm,
-        tb_menu m
+             tb_menu m
         where rm.menu_id = m.menu_id
-        and m.deleted = 0
-        and m.enabled = 1
-        and rm.role_id in (select r.role_id
-        from tb_users_roles ur,
-        tb_role r
-        where ur.role_id = r.role_id
-        and r.deleted = 0
-        and r.enabled = 1
-        and ur.user_id = #{userId})
+          and m.deleted = 0
+          and m.enabled = 1
+          and rm.role_id in (select r.role_id
+                             from tb_users_roles ur,
+                                  tb_role r
+                             where ur.role_id = r.role_id
+                               and r.deleted = 0
+                               and r.enabled = 1
+                               and ur.user_id = #{userId})
+    </select>
+
+    <select id="selectMenu" resultType="java.util.Map" parameterType="com.fastweapp.fw.domain.dto.MenuDto">
+        select distinct (m.menu_id) menuId,
+                        pid,
+                        type,
+                        menu_name   menuName,
+                        page,
+                        sort,
+                        icon,
+                        url,
+                        hidden,
+                        enabled,
+                        create_by   createBy,
+                        create_time createTime
+        from tb_menu m
+        where deleted = 0
+        <if test="menuName != null and menuName != ''">
+            and menu_name like concat('%', #{menuName}, '%')
+        </if>
+        <if test="beginDate != null and beginDate != '' and endDate != null and endDate != ''">
+            and create_time between concat(#{beginDate}, ' 00:00:00') and concat(#{endDate}, ' 23:59:59')
+        </if>
     </select>
 </mapper>
