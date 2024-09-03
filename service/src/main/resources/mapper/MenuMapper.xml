@@ -50,4 +50,49 @@
             and create_time between concat(#{beginDate}, ' 00:00:00') and concat(#{endDate}, ' 23:59:59')
         </if>
     </select>
+
+    <select id="selectIcon" resultType="java.util.Map">
+        select id, name, value, create_time createTime
+        from tb_icon
+        <where>
+            <if test="iconName != null and iconName != ''">
+                name like concat('%', #{iconName}, '%')
+            </if>
+        </where>
+        order by name
+    </select>
+
+    <insert id="insertMenu" parameterType="com.fastweapp.fw.domain.dto.AddMenuDto">
+        insert into tb_menu (pid, type, menu_name, page,
+                             sort, icon, url, hidden,
+                             enabled, create_by, create_time, deleted)
+        values (#{pid}, #{type}, #{menuName}, #{page},
+                #{sort}, #{icon}, #{url}, #{hidden},
+                #{enabled}, #{createBy}, now(), 0)
+    </insert>
+
+    <update id="updateMenuById" parameterType="com.fastweapp.fw.domain.dto.AddMenuDto">
+        update tb_menu
+        set pid         = #{pid},
+            type        = #{type},
+            menu_name   = #{menuName},
+            page        = #{page},
+            sort        = #{sort},
+            icon        = #{icon},
+            url         = #{url},
+            hidden      = #{hidden},
+            enabled     = #{enabled},
+            update_by   = #{updateBy},
+            update_time = now()
+        where menu_id = #{menuId}
+    </update>
+
+    <update id="deleteMenuByids" parameterType="integer">
+        update tb_menu
+        set deleted = 1
+        where menu_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+        #{id}
+        </foreach>
+    </update>
 </mapper>

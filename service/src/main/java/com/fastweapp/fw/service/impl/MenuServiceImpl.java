@@ -1,11 +1,13 @@
 package com.fastweapp.fw.service.impl;
 
+import com.fastweapp.fw.domain.dto.AddMenuDto;
 import com.fastweapp.fw.domain.dto.MenuDto;
 import com.fastweapp.fw.mapper.MenuMapper;
 import com.fastweapp.fw.service.MenuService;
 import com.fastweapp.fw.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -118,6 +120,31 @@ public class MenuServiceImpl implements MenuService {
             }
         });
         return convertedMenus;
+    }
+
+    @Override
+    public List<Map<String, Object>> getIcons(String iconName) {
+        return menuMapper.selectIcon(iconName);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addMenu(AddMenuDto dto) {
+        dto.setCreateBy(SecurityUtils.getCurrentUsername());
+        menuMapper.insertMenu(dto);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void modifyMenu(AddMenuDto dto) {
+        dto.setUpdateBy(SecurityUtils.getCurrentUsername());
+        menuMapper.updateMenuById(dto);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void removeMenu(Set<Integer> ids) {
+        menuMapper.deleteMenuByids(ids);
     }
 
     private List<Map<String, Object>> convertChildren(Long menuId, Map<Long, Map<String, Object>> menuMap) {
