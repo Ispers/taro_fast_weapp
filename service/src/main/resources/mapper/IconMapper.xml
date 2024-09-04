@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.fastweapp.fw.mapper.IconMapper">
+
+    <select id="selectIcon" parameterType="com.fastweapp.fw.domain.dto.IconDto" resultType="com.fastweapp.fw.domain.Icon">
+        select id, name, value, create_time createTime
+        from tb_icon
+        <where>
+            <if test="dto.name != null and dto.name != ''">
+                and name like concat('%', #{dto.name}, '%')
+            </if>
+            <if test="dto.value != null and dto.value != ''">
+                and value like concat('%', #{dto.value}, '%')
+            </if>
+            <if test="dto.beginDate != null and dto.beginDate != '' and dto.endDate != null and dto.endDate != ''">
+                and create_time between concat(#{dto.beginDate}, ' 00:00:00') and
+                concat(#{dto.endDate}, ' 23:59:59')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <insert id="insertIcon" parameterType="com.fastweapp.fw.domain.Icon">
+        insert into tb_icon (name, value, create_time)
+        values (#{name}, #{value}, now())
+    </insert>
+
+    <update id="updateIcon" parameterType="com.fastweapp.fw.domain.Icon">
+        update tb_icon
+        set name = #{name},
+            value= #{value}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteIcon" parameterType="integer">
+        delete
+        from tb_icon
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
