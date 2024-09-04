@@ -13,4 +13,6 @@ public interface OperationLogMapper {
     void insertOperationLog(OperationLog operationLog);
 
     IPage<Log> selectOperationLog(Page<Log> page, @Param("operationLogDto") OperationLogDto operationLogDto);
+
+    void deleteAllOperationLog();
 }

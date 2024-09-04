@@ -29,4 +29,10 @@ public class OperationLogServiceImpl implements OperationLogService {
         IPage<Log> logPage = operationLogMapper.selectOperationLog(page, operationLogDto);
         return PageResult.get(logPage);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void clearOperationLog() {
+        operationLogMapper.deleteAllOperationLog();
+    }
 }

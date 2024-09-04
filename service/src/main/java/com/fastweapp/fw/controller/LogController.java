@@ -9,6 +9,7 @@ import com.fastweapp.fw.utils.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,12 @@ public class LogController {
     @GetMapping("/getOperationLog")
     public ResultResponse<PageResult<Log>> getOperationLog(Page<Log> page, OperationLogDto operationLogDto) {
         PageResult<Log> res = operationLogService.getOperationLog(page, operationLogDto);
-        return ResultResponse.success(res);
+        return ResultResponse.success("日志查询成功", res);
+    }
+
+    @PostMapping("/clearOperationLog")
+    public ResultResponse<String> clearOperationLog() {
+        operationLogService.clearOperationLog();
+        return ResultResponse.success("清空日志成功");
     }
 }

@@ -359,7 +359,7 @@ const MenuMS = () => {
           }}
           dataSource={dataSource}
           columns={columns}
-          pagination={{ hideOnSinglePage: true }}>
+          pagination={false}>
         </Table>
       </Card>
 

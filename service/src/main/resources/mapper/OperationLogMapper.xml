@@ -56,4 +56,9 @@
         </if>
         order by add_time desc
     </select>
+
+    <update id="deleteAllOperationLog">
+        update tb_operation_log
+        set deleted = 1
+    </update>
 </mapper>

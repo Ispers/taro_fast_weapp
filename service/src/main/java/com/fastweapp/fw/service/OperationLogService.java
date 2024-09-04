@@ -10,4 +10,6 @@ public interface OperationLogService {
     void saveOperationLog(OperationLog operationLog);
 
     PageResult<Log> getOperationLog(Page<Log> page, OperationLogDto operationLogDto);
+
+    void clearOperationLog();
 }
