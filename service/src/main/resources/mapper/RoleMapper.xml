@@ -7,10 +7,63 @@
     <select id="selectRoleByUserId" resultType="java.util.Map">
         select r.role_id roleId, r.name, r.code, r.description
         from tb_users_roles ur,
-        tb_role r
+             tb_role r
         where ur.role_id = r.role_id
-        and r.deleted = 0
-        and r.enabled = 1
-        and ur.user_id = #{userId}
+          and r.deleted = 0
+          and r.enabled = 1
+          and ur.user_id = #{userId}
     </select>
+
+    <select id="selectRole" parameterType="com.fastweapp.fw.domain.dto.RoleDto"
+            resultType="com.fastweapp.fw.domain.Role">
+        select role_id,
+               name,
+               code,
+               description,
+               enabled,
+               create_by,
+               update_by,
+               create_time,
+               update_time
+        from tb_role
+        where deleted = 0
+        <if test="dto.name != null and dto.name != ''">
+            and name like concat('%', #{dto.name}, '%')
+        </if>
+        <if test="dto.code != null and dto.code != ''">
+            and code like concat('%', #{dto.code}, '%')
+        </if>
+        <if test="dto.enabled != null">
+            and enabled = #{dto.enabled}
+        </if>
+        <if test="dto.beginDate != null and dto.beginDate != '' and dto.endDate != null and dto.endDate != ''">
+            and create_time between concat(#{dto.beginDate}, ' 00:00:00') and
+                concat(#{dto.endDate}, ' 23:59:59')
+        </if>
+    </select>
+
+    <insert id="insertRole" parameterType="com.fastweapp.fw.domain.Role">
+        insert into tb_role (name, code, description, enabled, create_by, create_time, deleted)
+        values (#{name}, #{code}, #{description}, #{enabled}, #{createBy}, now(), 0)
+    </insert>
+
+    <update id="updateRole" parameterType="com.fastweapp.fw.domain.Role">
+        update tb_role
+        set name        = #{name},
+            code        = #{code},
+            description = #{description},
+            enabled     = #{enabled},
+            update_by   = #{updateBy},
+            update_time = now()
+        where role_id = #{roleId}
+    </update>
+
+    <update id="deleteRole" parameterType="integer">
+        update tb_role
+        set deleted = 1
+        where role_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
 </mapper>
