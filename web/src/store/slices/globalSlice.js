@@ -8,6 +8,7 @@ export const globalSlice = createSlice({
         routers: [], // 路由列表
         currentRoutePath: '', // 当前路由路径
         user: {}, // 当前登录用户信息
+        scriptUrl: '', // 阿里巴巴矢量图标库symbol 引用地址
     },
     reducers: {
         setMenu: (state, action) => {
@@ -24,7 +25,10 @@ export const globalSlice = createSlice({
         },
         setUser: (state, action) => {
             state.user = action.payload;
-        }
+        },
+        setScriptUrl: (state, action) => {
+            state.scriptUrl = action.payload;
+        },
     }
 });
 
@@ -35,7 +39,8 @@ export const {
     setRoles,
     setRouters,
     setCurrentRoutePath,
-    setUser
+    setUser,
+    setScriptUrl
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

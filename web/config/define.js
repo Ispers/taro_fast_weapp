@@ -6,5 +6,4 @@ export default {
     TIME_OUT: 5000, //请求超时时间
     TOKEN_COOKIE_EXPIRES: 7, // 记住我 状态下的token在Cookie中存储的天数
     PASS_COOKIE_EXPIRES: 7, // 记住我 状态下的密码在Cookie中存储的天数
-    ALIBABA_ICONFONT_SYMBOL_SCRIPT_URL: '//at.alicdn.com/t/c/font_4631326_t0on7jkw0r.js', // 阿里巴巴矢量图标库symbol 引用
 }

@@ -2,12 +2,22 @@ import { Card, Col, Input, Row, DatePicker, Button, Table, Modal, Space, Popconf
 import { useEffect, useState } from 'react';
 import { addIcon, getIcon, modifyIcon, removeIcon } from '../../../api/icon';
 import FormSubmitButton from '../../../components/FormSubmitButton';
+import { useDispatch, useSelector } from 'react-redux'
+import { modifyValue1ByKey } from '../../../api/config';
+import { setScriptUrl } from '../../../store/slices/globalSlice';
+import MyIcon from '@/components/MyIcon';
 
 const { RangePicker } = DatePicker;
 
 const Icon = () => {
     const columns = [
         { title: '图标名称', dataIndex: 'name' },
+        {
+            title: '图标样式', dataIndex: 'value',
+            render: (_, record) => (
+                <MyIcon type={`icon-${record.value}`} />
+            )
+        },
         { title: '关键字', dataIndex: 'value' },
         { title: '创建时间', dataIndex: 'createTime' },
         {
@@ -44,8 +54,13 @@ const Icon = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [editRow, setEditRow] = useState({});
     const [formBtnLoading, setFormBtnLoading] = useState(false);
+    const [symbolModalOpen, setSymbolModalOpen] = useState(false);
+    const [symbolScriptUrl, setSymbolScriptUrl] = useState('');
+    const [symbolModalBtnLoading, setSymbolModalBtnLoading] = useState(false);
 
     const [form] = Form.useForm();
+    const { scriptUrl } = useSelector(state => state.global);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getTableData();
@@ -90,6 +105,10 @@ const Icon = () => {
     const pageChange = (page, pageSize) => {
         setCurrent(page);
         setSize(pageSize);
+    };
+
+    const symbolChange = (e) => {
+        setSymbolScriptUrl(e.target.value);
     };
 
     const reset = () => {
@@ -154,6 +173,23 @@ const Icon = () => {
         setModalOpen(false);
     };
 
+    const modifySymbol = () => {
+        setSymbolModalBtnLoading(true);
+        console.log('modifySymbol-symbolScriptUrl:', symbolScriptUrl);
+        modifyValue1ByKey('ALIBABA_ICONFONT_SYMBOL_SCRIPT_URL', symbolScriptUrl).then(res => {
+            console.log('modifyValue1ByKey', res);
+            notification.success({
+                message: '提示',
+                description: '修改symbol引用地址成功',
+                duration: 5
+            })
+            dispatch(setScriptUrl(symbolScriptUrl));
+            setSymbolScriptUrl('');
+            setSymbolModalBtnLoading(false);
+            setSymbolModalOpen(false);
+        });
+    };
+
     const submitForm = (values) => {
         setFormBtnLoading(true);
         let params = { ...values };
@@ -198,7 +234,7 @@ const Icon = () => {
         <>
             <Card title='筛选条件' style={{ marginBottom: 20 }}>
                 <Row>
-                    <p style={{color: '#cb0000'}}>注：系统采用动态引用-阿里巴巴矢量图标库&nbsp;</p>
+                    <p style={{ color: '#ff0000' }}>注：系统采用动态引用-阿里巴巴矢量图标库&nbsp;</p>
                     <a href='https://www.iconfont.cn/help/detail?spm=a313x.manage_type_myprojects.i1.d8cf4382a.65ff3a81UOptyN&helptype=code' target='_blank'>(参考地址 symbol 引用)</a>
                 </Row>
                 <Row gutter={20} style={{ marginTop: 15 }}>
@@ -244,10 +280,16 @@ const Icon = () => {
                     <Col>
                         <Button type='primary' onClick={showFormModalOpen}>新增</Button>
                     </Col>
+                    <Col>
+                        <Button type='primary' onClick={() => { setSymbolModalOpen(true) }}>修改symbol引用地址</Button>
+                    </Col>
                 </Row>
             </Card>
 
             <Card title='图标数据'>
+                <Row style={{ marginBottom: '24px' }}>
+                    <p style={{ color: '#ff0000' }}>当前阿里巴巴矢量图标库 symbol 引用地址：<span style={{ color: '#3875f6' }}>{scriptUrl}</span></p>
+                </Row>
                 <Table
                     loading={tableLoading}
                     scroll={{ x: '100%', y: 700 }}
@@ -316,6 +358,30 @@ const Icon = () => {
                         </Row>
                     </Form.Item>
                 </Form>
+            </Modal>
+
+            <Modal
+                title='修改symbol引用地址'
+                destroyOnClose
+                open={symbolModalOpen}
+                keyboard={false}
+                maskClosable={false}
+                width={500}
+                onOk={modifySymbol}
+                confirmLoading={symbolModalBtnLoading}
+                onCancel={() => { setSymbolModalOpen(false); setSymbolScriptUrl(''); }}
+            >
+                <Row gutter={15} align={'middle'} style={{ marginTop: '20px', marginBottom: '20px' }}>
+                    <Col>symbol引用地址:</Col>
+                    <Col>
+                        <Input
+                            style={{ width: '330px' }}
+                            placeholder='请输入 symbol 引用地址'
+                            value={symbolScriptUrl}
+                            onChange={symbolChange}
+                        />
+                    </Col>
+                </Row>
             </Modal>
         </>
     );

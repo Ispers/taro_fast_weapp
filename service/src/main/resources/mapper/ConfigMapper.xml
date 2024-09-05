@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.fastweapp.fw.mapper.ConfigMapper">
+
+    <select id="selectConfigByKey" parameterType="string" resultType="com.fastweapp.fw.domain.Config">
+        select id, `key`, value1, value2, value3, description
+        from tb_config
+        <where>
+            <if test="key != null and key != ''">
+                and `key` = #{key}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateValue1ByKey" parameterType="com.fastweapp.fw.domain.Config">
+        update tb_config
+        set value1 = #{value1}
+        where `key` = #{key}
+    </update>
+</mapper>

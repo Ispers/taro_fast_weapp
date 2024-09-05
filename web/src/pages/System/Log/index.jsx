@@ -15,14 +15,14 @@ const Log = () => {
         {
             title: '请求数据', dataIndex: 'operationData', width: 250, ellipsis: { showTitle: false },
             render: (_, record) => (
-                <Tooltip placement="topLeft" title={record.operationData}>
+                <Tooltip key={record.id} placement="topLeft" title={record.operationData}>
                     {record.operationData}
                 </Tooltip>
             )
         },
         {
             title: '操作结果', dataIndex: 'operationStatus', width: 180,
-            render: (_, record) => (<div>{record.operationStatus ? '成功' : '失败'}</div>)
+            render: (_, record) => (<div key={record.id}>{record.operationStatus ? '成功' : '失败'}</div>)
         },
         { title: '所载IP地址', dataIndex: 'operationIp', width: 180 },
         { title: '操作时间', dataIndex: 'addTime', width: 180 },
@@ -32,7 +32,7 @@ const Log = () => {
             fixed: 'right',
             width: 100,
             render: (_, record) => (
-                <a onClick={() => { showOperationResult(record) }}>响应数据</a>
+                <a key={record.id} onClick={() => { showOperationResult(record) }}>响应数据</a>
             )
         }
     ];
@@ -64,7 +64,11 @@ const Log = () => {
         getOperationLog(params).then(res => {
             console.log('getOperationLog', res);
             setCurrent(res.result.current);
-            setDataSource(res.result.records || []);
+            let data = res.result.records || [];
+            data.forEach(item => {
+                item.key = item.id;
+            });
+            setDataSource(data);
             setTotalCount(res.result.totalCount);
             setTableLoading(false);
         })

@@ -43,21 +43,21 @@ public class MenuController {
 
     @PostMapping("/addMenu")
     @Log(module = "菜单", events = "新增菜单")
-    public ResultResponse<String> addMenu(@RequestBody AddMenuDto dto){
+    public ResultResponse<String> addMenu(@RequestBody AddMenuDto dto) {
         menuService.addMenu(dto);
         return ResultResponse.success("新增菜单成功");
     }
 
     @PostMapping("/modifyMenu")
     @Log(module = "菜单", events = "修改菜单")
-    public ResultResponse<String> modifyMenu(@RequestBody AddMenuDto dto){
+    public ResultResponse<String> modifyMenu(@RequestBody AddMenuDto dto) {
         menuService.modifyMenu(dto);
         return ResultResponse.success("修改菜单成功");
     }
 
     @PostMapping("/removeMenu")
     @Log(module = "菜单", events = "删除菜单")
-    public ResultResponse<String> removeMenu(@RequestBody Set<Integer> ids){
+    public ResultResponse<String> removeMenu(@RequestBody Set<Integer> ids) {
         menuService.removeMenu(ids);
         return ResultResponse.success("删除菜单成功");
     }

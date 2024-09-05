@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage'; // 使用 localStorage
 const persistConfig = {
     key: 'root', // 存储在 localStorage 中的键名
     storage, // 使用 localStorage 作为存储介质
-    blacklist: ['routers'], // 不持久化的 reducer 键名
+    blacklist: ['routers', 'scriptUrl'], // 不持久化的 reducer 键名
     // whitelist: ['global'] // 指定需要持久化的 reducer 键名
 };
 

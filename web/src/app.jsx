@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '@/store';
-import { setCurrentRoutePath, setRouters } from "./store/slices/globalSlice";
+import { setCurrentRoutePath, setRouters, setScriptUrl } from "./store/slices/globalSlice";
 import { patch } from './utils/menu';
 import { getToken } from '@/utils/auth';
 import { history, matchRoutes } from 'umi';
@@ -12,6 +12,7 @@ import zhCN from 'antd/locale/zh_CN';
 // for date-picker i18n
 import 'dayjs/locale/zh-cn';
 import { ConfigProvider } from "antd";
+import { getConfig } from "./api/config";
 
 /** 变量*/
 let extraRoutes;
@@ -29,6 +30,12 @@ export function render(oldRender) {
     if (getToken()) {
         const pm = JSON.parse(localStorage.getItem('persist:root')).menus;
         extraRoutes = JSON.parse(pm);
+
+        // 获取阿里巴巴矢量图标库symbol 引用地址
+        getConfig('ALIBABA_ICONFONT_SYMBOL_SCRIPT_URL').then(res => {
+            console.log('getConfig', res);
+            store.dispatch(setScriptUrl(res.result.value1));
+        });
     }
     oldRender();
 }
