@@ -1,8 +1,29 @@
 import { Card, Col, Input, Row, DatePicker, Button, Table, Pagination, Modal, Space, Popconfirm, Form, Radio, Cascader, Select, notification } from 'antd';
 import { useEffect, useState } from "react";
-import { getRole } from "../../../api/role";
+import { addRole, getRole, modifyRole, removeRole } from "../../../api/role";
+import FormSubmitButton from '../../../components/FormSubmitButton';
+import { getMenuInfo } from '../../../api/menu';
 
 const { RangePicker } = DatePicker;
+
+// 根据菜单数据生成节点选择器数据
+const dataToOptions = (dataSource) => {
+    let options = [];
+
+    for (let i = 0; i < dataSource.length; i++) {
+        let opItem = {};
+        opItem.label = dataSource[i].menuName;
+        opItem.value = dataSource[i].menuId;
+        if (dataSource[i].children && dataSource[i].children.length > 0) {
+            opItem.children = dataToOptions(dataSource[i].children);
+        }
+        options.push(opItem);
+    }
+
+    return options;
+};
+
+
 
 const Role = () => {
     const columns = [
@@ -12,7 +33,7 @@ const Role = () => {
         {
             title: '启用状态', dataIndex: 'enabled',
             render: (_, record) => (
-                <div>{record.enabled === 1 ? '已启用' : '未启用'}</div>
+                <div>{record.enabled === 1 ? '启用' : '禁用'}</div>
             )
         },
         { title: '创建人', dataIndex: 'createBy' },
@@ -24,11 +45,17 @@ const Role = () => {
             width: 150,
             render: (_, record) => (
                 <Space size="middle">
-                    <a>菜单</a>
-                    <a>编辑</a>
+                    <a onClick={() => {
+                        showMenuModalOpen(record)
+                    }}>菜单</a>
+                    <a onClick={() => {
+                        showFormModalOpen(record)
+                    }}>编辑</a>
                     <Popconfirm
                         title="确认删除该条记录吗？"
-                        onConfirm={() => { }}
+                        onConfirm={() => {
+                            del(record.roleId)
+                        }}
                         okText="确定"
                         cancelText="取消">
                         <a>删除</a>
@@ -48,6 +75,17 @@ const Role = () => {
     const [current, setCurrent] = useState(1);
     const [size, setSize] = useState(10);
     const [totalCount, setTotalCount] = useState(0);
+    const [modalLoading, setModalLoading] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editRow, setEditRow] = useState({});
+    const [formBtnLoading, setFormBtnLoading] = useState(false);
+    const [menuModalLoading, setMenuModalLoading] = useState(false);
+    const [menuModalOpen, setMenuModalOpen] = useState(false);
+    const [menuCascaderOptions, setMenuCascaderOptions] = useState([]);
+    const [menuCascaderValue, setMenuCascaderValue] = useState([]);
+
+    const [form] = Form.useForm();
 
     useEffect(() => {
         getTableData();
@@ -78,6 +116,36 @@ const Role = () => {
         })
     };
 
+    const del = (id) => {
+        setDelBtnLoading(true);
+        console.log('del-id', id);
+        removeRole([id]).then(res => {
+            console.log('removeRole', res);
+            notification.success({
+                message: '提示',
+                description: '删除菜单成功',
+                duration: 5
+            });
+            getTableData();
+            setDelBtnLoading(false);
+        });
+    };
+
+    const beachDel = () => {
+        setDelBtnLoading(true);
+        console.log('beachDel-selectedRowKeys', selectedKeys);
+        removeRole(selectedKeys).then(res => {
+            console.log('removeRole', res);
+            notification.success({
+                message: '提示',
+                description: '删除菜单成功',
+                duration: 5
+            });
+            getTableData();
+            setDelBtnLoading(false);
+        });
+    };
+
     const nameChange = (e) => {
         setName(e.target.value);
     };
@@ -101,8 +169,26 @@ const Role = () => {
         setDate([]);
     };
 
-    const showFormModalOpen = () => {
-
+    const showFormModalOpen = (row) => {
+        console.log('showFormModalOpen', row);
+        setModalLoading(true);
+        setModalOpen(true);
+        if (row.roleId) {
+            setModalTitle('角色-编辑');
+            setEditRow(row);
+            form.setFieldsValue({
+                'code': row.code,
+                'name': row.name,
+                'enabled': row.enabled,
+                'description': row.description,
+            });
+        } else {
+            setModalTitle('角色-新增');
+            form.setFieldValue('enabled', 1)
+        }
+        setTimeout(() => {
+            setModalLoading(false);
+        }, 500);
     };
 
     const pageChange = (page, pageSize) => {
@@ -110,10 +196,98 @@ const Role = () => {
         setSize(pageSize);
     };
 
+    const modalCanael = () => {
+        form.resetFields();
+        setEditRow(null);
+        setFormBtnLoading(false);
+        setModalOpen(false);
+    };
+
+    const submitForm = (values) => {
+        setFormBtnLoading(true);
+        let params = { ...values };
+        if (editRow?.roleId) {
+            params.roleId = editRow.roleId
+        }
+        console.log('submitForm-params:', params);
+        if (editRow?.roleId) {
+            // 编辑
+            modifyRole(params).then(res => {
+                console.log('modifyRole', res);
+                notification.success({
+                    message: '提示',
+                    description: '修改角色成功',
+                    duration: 5
+                })
+                modalCanael();
+                getTableData();
+            })
+        } else {
+            // 新增
+            addRole(params).then(res => {
+                console.log('addRole', res);
+                notification.success({
+                    message: '提示',
+                    description: '新增角色成功',
+                    duration: 5
+                })
+                modalCanael();
+                getTableData();
+            })
+        }
+    };
+
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             setSelectedKeys(selectedRowKeys);
         }
+    };
+
+    const showMenuModalOpen = (row) => {
+        setMenuModalLoading(true);
+        setMenuModalOpen(true);
+        getMenuInfo().then(res => {
+            console.log('getMenuInfo', res);
+            setMenuCascaderOptions(dataToOptions(res.result));
+            setMenuModalLoading(false);
+        })
+    };
+
+    const menuModalCanael = () => {
+        setMenuModalOpen(false);
+    };
+
+    const menuCascaderOnChange = (value) => {
+        // todo: 根据选中的 CascaderValue 计算 SelectedMenuIds
+        // [[1],[2],[3],[4],[12],[13]]
+        // [[1],[3],[12],[13],[4,5],[4,6],[4,14],[4,7,9],[4,7,10],[2]]
+        // [[1],[3],[12],[13],[4,5],[4,6],[4,14],[4,7,9],[4,7,10],[2,18],[2,17],[2,15],[2,19],[2,20]]
+        const getSelectedMenuIdsByCascaderValue = (data, cascaderValue) => {
+            console.log('data--', JSON.stringify(data));
+            console.log('cascaderValue--', JSON.stringify(cascaderValue));
+            let result = [];
+
+            const findCascaderValue = (items, path) => {
+                items.forEach(item => {
+                    const newPath = [...path, item.value];
+                    console.log('cascaderValue.includes(item.value)', cascaderValue.includes(item.value));
+                    if (cascaderValue.includes(item.value)) {
+                        result.push(newPath);
+                    }
+                    if (item.children) {
+                        findCascaderValue(item.children, newPath); // 递归查找子节点
+                    }
+                });
+            };
+
+            findCascaderValue(data, []);
+            return result;
+        };
+
+        console.log('menuCascaderOptions', JSON.stringify(menuCascaderOptions));
+        console.log('menuCascaderOnChange-value: ', JSON.stringify(value));
+        console.log('selectedMenuIds:', getSelectedMenuIdsByCascaderValue(menuCascaderOptions, value));
+        setMenuCascaderValue(value);
     };
 
     return (
@@ -166,10 +340,13 @@ const Role = () => {
                     <Col>
                         <Popconfirm
                             title="确认删除已选择的菜单吗？"
-                            onConfirm={() => { beachDel() }}
+                            onConfirm={() => {
+                                beachDel()
+                            }}
                             okText="确定"
                             cancelText="取消">
-                            <Button danger type='primary' loading={delBtnLoading} disabled={!selectedKeys.length > 0}>删除</Button>
+                            <Button danger type='primary' loading={delBtnLoading}
+                                disabled={!selectedKeys.length > 0}>删除</Button>
                         </Popconfirm>
                     </Col>
                     <Col>
@@ -202,6 +379,89 @@ const Role = () => {
                     onChange={pageChange}
                 />
             </Card>
+
+            <Modal
+                loading={modalLoading}
+                title={modalTitle}
+                forceRender
+                destroyOnClose
+                footer={null}
+                open={modalOpen}
+                keyboard={false}
+                maskClosable={false}
+                width={500}
+                onCancel={modalCanael}
+            >
+                <Form
+                    style={{ marginTop: '20px' }}
+                    form={form}
+                    name="form"
+                    autoComplete="off"
+                    onFinish={submitForm}
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 16 }}
+                >
+                    <Form.Item
+                        label="角色编码"
+                        rules={[{ required: true, message: '请输入角色编码' }]}
+                        name="code">
+                        <Input allowClear type='text' placeholder='角色编码' />
+                    </Form.Item>
+                    <Form.Item
+                        label="角色名称"
+                        rules={[{ required: true, message: '请输入角色名称' }]}
+                        name="name">
+                        <Input allowClear type='text' placeholder='角色名称' />
+                    </Form.Item>
+                    <Form.Item
+                        label="启用状态"
+                        name="enabled"
+                        wrapperCol={{ span: 10 }}>
+                        <Radio.Group>
+                            <Radio value={1}>启用</Radio>
+                            <Radio value={0}>禁用</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
+                        label="描述"
+                        name="description">
+                        <Input allowClear type='text' placeholder='描述' />
+                    </Form.Item>
+                    <Form.Item
+                        wrapperCol={{ span: 24 }}>
+                        <Row gutter={20} justify="center">
+                            <Col>
+                                <Button onClick={modalCanael}>取消</Button>
+                            </Col>
+                            <Col>
+                                <FormSubmitButton form={form} loaidng={formBtnLoading}>确定</FormSubmitButton>
+                            </Col>
+                        </Row>
+                    </Form.Item>
+                </Form>
+            </Modal>
+
+            <Modal
+                loading={menuModalLoading}
+                title="菜单角色管理"
+                destroyOnClose
+                open={menuModalOpen}
+                keyboard={false}
+                maskClosable={false}
+                width={500}
+                onCancel={menuModalCanael}
+            >
+                <Cascader
+                    allowClear
+                    placeholder="请选择角色拥有的菜单"
+                    style={{ width: '100%', margin: '20px 0' }}
+                    options={menuCascaderOptions}
+                    onChange={menuCascaderOnChange}
+                    value={menuCascaderValue}
+                    multiple
+                    maxTagCount="responsive"
+                />
+            </Modal>
         </>
     );
 };
