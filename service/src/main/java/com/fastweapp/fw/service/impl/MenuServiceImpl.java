@@ -144,6 +144,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeMenu(Set<Integer> ids) {
+        // 删除菜单角色关联
+        menuMapper.deleteMenuRoles(ids);
         menuMapper.deleteMenuByids(ids);
     }
 

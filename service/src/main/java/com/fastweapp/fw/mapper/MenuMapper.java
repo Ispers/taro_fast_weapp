@@ -22,4 +22,6 @@ public interface MenuMapper {
     void updateMenuById(AddMenuDto dto);
 
     void deleteMenuByids(@Param("ids") Set<Integer> ids);
+
+    void deleteMenuRoles(@Param("ids") Set<Integer> ids);
 }
