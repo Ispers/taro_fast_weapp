@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fastweapp.fw.common.Constants;
 import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.domain.dto.ModifyPasswordDto;
+import com.fastweapp.fw.domain.vo.UserVo;
 import com.fastweapp.fw.exception.BadRequestException;
 import com.fastweapp.fw.mapper.UserMapper;
 import com.fastweapp.fw.service.UserService;
@@ -79,11 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Map<String, Object> selectUserInfo(Long userId) {
-        Map<String, Object> map = userMapper.selectUserInfo(userId);
-        if (map.get("gender") != null) {
-            map.put("gender", map.get("gender").toString().equals("1") ? "男" : "女");
-        }
-        return map;
+    public UserVo selectUserInfo(Long userId) {
+        return userMapper.selectUserInfo(userId);
     }
 }

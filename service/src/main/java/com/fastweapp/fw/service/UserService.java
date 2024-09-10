@@ -4,6 +4,7 @@ package com.fastweapp.fw.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.domain.dto.ModifyPasswordDto;
+import com.fastweapp.fw.domain.vo.UserVo;
 
 import java.util.Map;
 
@@ -20,5 +21,5 @@ public interface UserService extends IService<User> {
 
     void centerModifyPassword(ModifyPasswordDto modifyPasswordDto);
 
-    Map<String, Object> selectUserInfo(Long userId);
+    UserVo selectUserInfo(Long userId);
 }

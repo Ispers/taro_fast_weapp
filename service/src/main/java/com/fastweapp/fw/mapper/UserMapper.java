@@ -2,6 +2,7 @@ package com.fastweapp.fw.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fastweapp.fw.domain.User;
+import com.fastweapp.fw.domain.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,5 @@ public interface UserMapper extends BaseMapper<User> {
 
     void wxInsertUser(User user);
 
-    Map<String, Object> selectUserInfo(@Param("userId") Long userId);
+    UserVo selectUserInfo(@Param("userId") Long userId);
 }

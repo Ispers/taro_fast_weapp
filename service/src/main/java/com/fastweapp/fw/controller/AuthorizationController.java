@@ -6,6 +6,7 @@ import com.fastweapp.fw.annotation.Log;
 import com.fastweapp.fw.common.Constants;
 import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.domain.dto.AuthUserDto;
+import com.fastweapp.fw.domain.vo.UserVo;
 import com.fastweapp.fw.exception.BadRequestException;
 import com.fastweapp.fw.jwt.CurrentUser;
 import com.fastweapp.fw.jwt.JwtInfo;
@@ -150,9 +151,9 @@ public class AuthorizationController {
 
     @GetMapping("/info")
     @Log(module = "认证", events = "获取用户信息")
-    public ResultResponse<Map<String, Object>> info() {
-        Map<String, Object> map = userService.selectUserInfo(SecurityUtils.getCurrentUserId());
-        return ResultResponse.success("获取用户信息成功", map);
+    public ResultResponse<UserVo> info() {
+        UserVo user = userService.selectUserInfo(SecurityUtils.getCurrentUserId());
+        return ResultResponse.success("获取用户信息成功", user);
     }
 
     @PostMapping("/logout")

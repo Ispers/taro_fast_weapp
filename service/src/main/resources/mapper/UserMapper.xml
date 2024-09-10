@@ -84,24 +84,24 @@
         values (#{wxOpenid}, #{nickname}, #{gender}, #{avatarUrl},#{enabled}, #{isAdmin}, now())
     </insert>
 
-    <select id="selectUserInfo" resultType="java.util.Map">
-        select user_id       userId,
-               wx_openid     wxOpenid,
+    <select id="selectUserInfo" resultType="com.fastweapp.fw.domain.vo.UserVo" parameterType="long">
+        select user_id,
+               wx_openid,
                username,
                nickname,
-               real_name     realName,
+               real_name,
                address,
                phone,
                email,
+               u.enabled,
                birthday,
                gender,
-               avatar_url    avatarUrl,
-               d.enabled,
-               is_admin      isAdmin,
-               wx_unionid    wxUnionid,
-               u.create_time createTime,
-               d.dept_id     deptId,
-               d.name        deptName
+               avatar_url,
+               is_admin,
+               wx_unionid,
+               u.create_time,
+               d.dept_id,
+               d.name as deptName
         from tb_user u
                  left join tb_dept d
                            on d.dept_id = u.dept_id
