@@ -1,6 +1,6 @@
-import { Card, Col, Input, Row, DatePicker, Button, Table, Pagination, Modal, Space, Popconfirm, Form, Radio, Cascader, Select, notification } from 'antd';
+import { Card, Col, Input, Row, DatePicker, Button, Table, Pagination, Modal, Space, Popconfirm, Form, Radio, Cascader, Select, notification, message } from 'antd';
 import { useEffect, useState } from "react";
-import { addRole, getRole, modifyRole, removeRole } from "../../../api/role";
+import { addRole, bindMenu, getMenuJsonArr, getRole, modifyRole, removeRole } from "../../../api/role";
 import FormSubmitButton from '../../../components/FormSubmitButton';
 import { getMenuInfo } from '../../../api/menu';
 
@@ -84,6 +84,8 @@ const Role = () => {
     const [menuModalOpen, setMenuModalOpen] = useState(false);
     const [menuCascaderOptions, setMenuCascaderOptions] = useState([]);
     const [menuCascaderValue, setMenuCascaderValue] = useState([]);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [roleId, setRoleId] = useState(0);
 
     const [form] = Form.useForm();
 
@@ -244,50 +246,67 @@ const Role = () => {
     };
 
     const showMenuModalOpen = (row) => {
+        let num = 0;
         setMenuModalLoading(true);
         setMenuModalOpen(true);
+        setRoleId(row.roleId);
         getMenuInfo().then(res => {
             console.log('getMenuInfo', res);
             setMenuCascaderOptions(dataToOptions(res.result));
-            setMenuModalLoading(false);
+            if (++num === 2) {
+                setMenuModalLoading(false);
+            }
+        })
+        getMenuJsonArr(row.roleId).then(res => {
+            console.log('getMenuJsonArr', res);
+            setMenuCascaderValue(res.result ? JSON.parse(res.result) : []);
+            if (++num === 2) {
+                setMenuModalLoading(false);
+            }
         })
     };
 
     const menuModalCanael = () => {
         setMenuModalOpen(false);
+        setMenuCascaderValue([]);
     };
 
     const menuCascaderOnChange = (value) => {
-        // todo: 根据选中的 CascaderValue 计算 SelectedMenuIds
-        // [[1],[2],[3],[4],[12],[13]]
-        // [[1],[3],[12],[13],[4,5],[4,6],[4,14],[4,7,9],[4,7,10],[2]]
-        // [[1],[3],[12],[13],[4,5],[4,6],[4,14],[4,7,9],[4,7,10],[2,18],[2,17],[2,15],[2,19],[2,20]]
-        const getSelectedMenuIdsByCascaderValue = (data, cascaderValue) => {
-            console.log('data--', JSON.stringify(data));
-            console.log('cascaderValue--', JSON.stringify(cascaderValue));
-            let result = [];
+        setMenuCascaderValue(value);
+    };
 
-            const findCascaderValue = (items, path) => {
-                items.forEach(item => {
-                    const newPath = [...path, item.value];
-                    console.log('cascaderValue.includes(item.value)', cascaderValue.includes(item.value));
-                    if (cascaderValue.includes(item.value)) {
-                        result.push(newPath);
-                    }
-                    if (item.children) {
-                        findCascaderValue(item.children, newPath); // 递归查找子节点
-                    }
-                });
-            };
-
-            findCascaderValue(data, []);
-            return result;
+    const submitMenu = () => {
+        // 根据选中的 values 计算 SelectedMenuIds
+        setConfirmLoading(true);
+        const getSelectedMenuIds = (values) => {
+            const uniqueValues = new Set();
+            values.forEach(subArray => {
+                subArray.forEach(value => uniqueValues.add(value));
+            });
+            return Array.from(uniqueValues);
         };
 
-        console.log('menuCascaderOptions', JSON.stringify(menuCascaderOptions));
-        console.log('menuCascaderOnChange-value: ', JSON.stringify(value));
-        console.log('selectedMenuIds:', getSelectedMenuIdsByCascaderValue(menuCascaderOptions, value));
-        setMenuCascaderValue(value);
+        if (menuCascaderValue.length === 0) {
+            message.warning('菜单列表不能为空成功');
+            return;
+        }
+        const selectedMenuIds = getSelectedMenuIds(menuCascaderValue);
+        let params = {
+            selectedMenuIds,
+            menuJsonArr: JSON.stringify(menuCascaderValue),
+            roleId
+        };
+        console.log('bindMenu-params:', params);
+        bindMenu(params).then(res => {
+            console.log('bindMenu', res);
+            notification.success({
+                message: '提示',
+                description: '角色绑定菜单成功',
+                duration: 5
+            });
+            setConfirmLoading(false);
+            menuModalCanael();
+        });
     };
 
     return (
@@ -450,6 +469,8 @@ const Role = () => {
                 maskClosable={false}
                 width={500}
                 onCancel={menuModalCanael}
+                onOk={submitMenu}
+                confirmLoading={confirmLoading}
             >
                 <Cascader
                     allowClear
@@ -458,6 +479,7 @@ const Role = () => {
                     options={menuCascaderOptions}
                     onChange={menuCascaderOnChange}
                     value={menuCascaderValue}
+                    showCheckedStrategy='SHOW_CHILD'
                     multiple
                     maxTagCount="responsive"
                 />

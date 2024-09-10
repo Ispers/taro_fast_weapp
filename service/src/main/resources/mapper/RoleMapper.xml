@@ -66,4 +66,38 @@
             #{id}
         </foreach>
     </update>
+
+    <delete id="deleteRoleUser" parameterType="integer">
+        delete
+        from tb_users_roles where role_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMenuJsonArrByRoleId" resultType="java.lang.String" parameterType="long">
+        select menu_json_arr
+        from tb_role
+        where role_id = #{roleId}
+    </select>
+
+    <update id="updateMenuJsonArr">
+        update tb_role
+        set menu_json_arr = #{menuJsonArr}
+        where role_id = #{roleId}
+    </update>
+
+    <delete id="deleteRoleMenu">
+        delete
+        from tb_roles_menus
+        where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertRoleMenu">
+        insert into tb_roles_menus (menu_id, role_id)
+        values
+        <foreach collection="ids" item="id" separator=",">
+            (#{id}, #{roleId})
+        </foreach>
+    </insert>
 </mapper>

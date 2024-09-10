@@ -3,6 +3,7 @@ package com.fastweapp.fw.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastweapp.fw.annotation.Log;
 import com.fastweapp.fw.domain.Role;
+import com.fastweapp.fw.domain.dto.RoleBindMenuDto;
 import com.fastweapp.fw.domain.dto.RoleDto;
 import com.fastweapp.fw.service.RoleService;
 import com.fastweapp.fw.utils.PageResult;
@@ -56,5 +57,19 @@ public class RoleController {
     public ResultResponse<String> removeRole(@RequestBody Set<Integer> ids) {
         roleService.removeRole(ids);
         return ResultResponse.success("删除角色成功");
+    }
+
+    @GetMapping("/getMenuJsonArr")
+    @Log(module = "角色", events = "查询menuJsonArr")
+    public ResultResponse<String> getMenuJsonArr(Long roleId) {
+        String menuJsonArr = roleService.getMenuJsonArr(roleId);
+        return ResultResponse.success("查询menuJsonArr", menuJsonArr);
+    }
+
+    @PostMapping("/bindMenu")
+    @Log(module = "角色", events = "角色绑定菜单")
+    public ResultResponse<String> bindMenu(@RequestBody RoleBindMenuDto dto) {
+        roleService.bindMenu(dto);
+        return ResultResponse.success("角色绑定菜单成功");
     }
 }

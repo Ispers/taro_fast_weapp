@@ -22,4 +22,16 @@ public interface RoleMapper {
     void updateRole(Role role);
 
     void deleteRole(@Param("ids") Set<Integer> ids);
+
+    void deleteRoleUser(@Param("ids") Set<Integer> ids);
+
+    String selectMenuJsonArrByRoleId(@Param("roleId") Long roleId);
+
+    void updateMenuJsonArr(@Param("menuJsonArr") String menuJsonArr,
+                           @Param("roleId") Long roleId);
+
+    void deleteRoleMenu(@Param("roleId") Long roleId);
+
+    void insertRoleMenu(@Param("ids") List<Long> selectedMenuIds,
+                        @Param("roleId") Long roleId);
 }

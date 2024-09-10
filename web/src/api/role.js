@@ -39,3 +39,18 @@ export function removeRole(ids) {
         data: ids
     })
 };
+
+export function getMenuJsonArr(roleId) {
+    return request({
+        url: 'api/role/getMenuJsonArr?roleId=' + roleId,
+        method: 'get'
+    })
+};
+
+export function bindMenu(data){
+    return request({
+        url: 'api/role/bindMenu',
+        method: 'post',
+        data
+    })
+};

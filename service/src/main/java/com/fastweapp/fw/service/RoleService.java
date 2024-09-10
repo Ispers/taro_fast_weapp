@@ -2,6 +2,7 @@ package com.fastweapp.fw.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastweapp.fw.domain.Role;
+import com.fastweapp.fw.domain.dto.RoleBindMenuDto;
 import com.fastweapp.fw.domain.dto.RoleDto;
 import com.fastweapp.fw.utils.PageResult;
 
@@ -19,4 +20,8 @@ public interface RoleService {
     void modifyRole(Role role);
 
     void removeRole(Set<Integer> ids);
+
+    String getMenuJsonArr(Long roleId);
+
+    void bindMenu(RoleBindMenuDto dto);
 }

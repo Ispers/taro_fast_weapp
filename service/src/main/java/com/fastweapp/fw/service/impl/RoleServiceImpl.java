@@ -3,6 +3,7 @@ package com.fastweapp.fw.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fastweapp.fw.domain.Role;
+import com.fastweapp.fw.domain.dto.RoleBindMenuDto;
 import com.fastweapp.fw.domain.dto.RoleDto;
 import com.fastweapp.fw.mapper.RoleMapper;
 import com.fastweapp.fw.service.RoleService;
@@ -49,6 +50,24 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void removeRole(Set<Integer> ids) {
+        // 删除用户角色关联
+        roleMapper.deleteRoleUser(ids);
         roleMapper.deleteRole(ids);
+    }
+
+    @Override
+    public String getMenuJsonArr(Long roleId) {
+        return roleMapper.selectMenuJsonArrByRoleId(roleId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void bindMenu(RoleBindMenuDto dto) {
+        // 记录前端value值-menuJsonArr
+        roleMapper.updateMenuJsonArr(dto.getMenuJsonArr(), dto.getRoleId());
+        // 删除全部该角色菜单关联关系
+        roleMapper.deleteRoleMenu(dto.getRoleId());
+        // 添加角色菜单关联关系
+        roleMapper.insertRoleMenu(dto.getSelectedMenuIds(), dto.getRoleId());
     }
 }
