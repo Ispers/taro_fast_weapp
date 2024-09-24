@@ -1,4 +1,4 @@
-import { Button, Card, Col, DatePicker, Flex, Form, Input, Modal, notification, Radio, Row, Space, Upload } from "antd";
+import { Button, Card, Col, DatePicker, Flex, Form, Input, Modal, notification, Radio, Row } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import MyIcon from '@/components/MyIcon';
 import './index.less';
@@ -25,8 +25,6 @@ const PersonalCenterPage = () => {
     const [fromBtnLoading, setFromBtnLoading] = useState(false);
     const [modifyPwdModalOpen, setModifyPwdModalOpen] = useState(false);
     const [modifyPwdFormBtnLoading, setModifyPwdFormBtnLoading] = useState(false);
-    const [avatar, setAvatar] = useState(user.avatarUrl);
-    const [cropImageOpen, setCropImageOpen] = useState(false);
 
     useEffect(() => {
         init();

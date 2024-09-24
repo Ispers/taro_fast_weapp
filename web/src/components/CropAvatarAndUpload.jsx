@@ -47,9 +47,9 @@ const CropAvatarAndUpload = (props) => {
         setSrc(URL.createObjectURL(file));
     };
 
-    const onChange = (cropper) => {
-        console.log(cropper.getCoordinates(), cropper.getCanvas());
-    };
+    // const onChange = (cropper) => {
+    //     console.log(cropper.getCoordinates(), cropper.getCanvas());
+    // };
 
     const onUpdate = (cropper) => {
         previewRef.current?.update(cropper);
@@ -136,7 +136,7 @@ const CropAvatarAndUpload = (props) => {
                             src={src}
                             stencilProps={{ aspectRatio: 1 / 1, grid: true }}
                             stencilComponent={CircleStencil}
-                            onChange={onChange}
+                            // onChange={onChange}
                             onUpdate={onUpdate}
                             className="cropper"
                             style={{ maxHeight: '50vh', maxWidth: '40vw' }}
