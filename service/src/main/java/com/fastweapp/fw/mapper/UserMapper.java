@@ -5,6 +5,7 @@ import com.fastweapp.fw.domain.User;
 import com.fastweapp.fw.domain.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.Map;
 
@@ -20,4 +21,8 @@ public interface UserMapper extends BaseMapper<User> {
     void wxInsertUser(User user);
 
     UserVo selectUserInfo(@Param("userId") Long userId);
+
+    @Update(" update tb_user set avatar_url = #{avatarUrl} where user_id = #{currentUserId} ")
+    void updateAvatar(@Param("avatarUrl") String avatarUrl,
+                      @Param("currentUserId") Long currentUserId);
 }

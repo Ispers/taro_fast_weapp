@@ -22,4 +22,6 @@ public interface UserService extends IService<User> {
     void centerModifyPassword(ModifyPasswordDto modifyPasswordDto);
 
     UserVo selectUserInfo(Long userId);
+
+    void centerModifyAvatar(String avatarUrl);
 }

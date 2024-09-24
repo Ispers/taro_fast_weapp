@@ -3,7 +3,6 @@ import { getToken, removeToken } from '@/utils/auth'
 import Cookies from 'js-cookie'
 import { notification } from 'antd';
 import { history } from 'umi';
-import { logout } from '@/api/auth';
 
 // 创建axios实例
 const service = axios.create({
@@ -29,13 +28,26 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     if (response.data.code != '200') {
-      notification.error({
-        message: '错误提示',
-        description: response.data.message,
-        duration: 5
-      });
-      return Promise.reject(response)
+      if (response.data.code == '401') {
+        removeToken();
+        // 用户登录界面提示
+        Cookies.set('point', 401)
+        location.reload();
+      } else if (response.data.code == '403') {
+        history.push('/403');
+      } else {
+        const errorMsg = response.data.message
+        if (errorMsg !== undefined) {
+          notification.error({
+            message: '错误提示',
+            description: errorMsg,
+            duration: 5
+          });
+        }
+      }
+      return Promise.reject(response);
     }
+
     return response.data
   },
   error => {
@@ -53,47 +65,11 @@ service.interceptors.response.use(
         });
       }
     } else {
-      let code = 0
-      try {
-        code = error.response.data.status
-      } catch (e) {
-        if (error.toString().indexOf('Error: timeout') !== -1) {
-          notification.error({
-            message: '错误提示',
-            description: '网络请求超时',
-            duration: 5
-          });
-          return Promise.reject(error)
-        }
-      }
-      if (code) {
-        if (code == 401) {
-          logout().then(res => {
-            console.log('logout', res);
-            removeToken();
-            // 用户登录界面提示
-            Cookies.set('point', 401)
-            location.reload()
-          })
-        } else if (code == 403) {
-          history.push('/403');
-        } else {
-          const errorMsg = error.response.data.message
-          if (errorMsg !== undefined) {
-            notification.error({
-              message: '错误提示',
-              description: errorMsg,
-              duration: 5
-            });
-          }
-        }
-      } else {
-        notification.error({
-          message: '错误提示',
-          description: '接口请求失败',
-          duration: 5
-        });
-      }
+      notification.error({
+        message: '错误提示',
+        description: '接口请求失败',
+        duration: 5
+      });
     }
     return Promise.reject(error)
   }

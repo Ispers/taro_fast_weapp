@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -57,12 +59,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional(rollbackFor = Exception.class)
     public void centerModifyInfo(User resource) {
         User user = getById(resource.getUserId());
+        user.setNickname(resource.getNickname());
         user.setRealName(resource.getRealName());
         user.setGender(resource.getGender());
-        user.setPhone(resource.getPhone());
-        user.setAddress(resource.getAddress());
         user.setBirthday(resource.getBirthday());
-        user.setAvatarUrl(resource.getAvatarUrl());
+        user.setPhone(resource.getPhone());
+        user.setEmail(resource.getEmail());
+        user.setAddress(resource.getAddress());
+
+        user.setUpdateBy(SecurityUtils.getCurrentUsername());
+        user.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         updateById(user);
     }
 
@@ -82,5 +88,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public UserVo selectUserInfo(Long userId) {
         return userMapper.selectUserInfo(userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void centerModifyAvatar(String avatarUrl) {
+        userMapper.updateAvatar(avatarUrl, SecurityUtils.getCurrentUserId());
     }
 }

@@ -29,8 +29,9 @@ export function patchClientRoutes({ routes }) {
 export function render(oldRender) {
     if (getToken()) {
         const pm = JSON.parse(localStorage.getItem('persist:root')).menus;
-        extraRoutes = JSON.parse(pm);
-
+        if (pm) {
+            extraRoutes = JSON.parse(pm);
+        }
         // 获取阿里巴巴矢量图标库symbol 引用地址
         getConfig('ALIBABA_ICONFONT_SYMBOL_SCRIPT_URL').then(res => {
             console.log('getConfig', res);
