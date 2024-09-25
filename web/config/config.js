@@ -23,5 +23,9 @@ export default {
             }
         }
     },
+    chainWebpack(config) {
+        // 添加 global.js 到入口文件
+        config.entry('app').add('./src/global.js');
+    },
     npmClient: 'pnpm'
 };
