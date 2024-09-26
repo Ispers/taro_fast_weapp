@@ -22,7 +22,7 @@ const Trends = () => {
             setData(Array.from({
                 length: 5,
             }).map((_, i) => ({
-                href: 'javascript:void(0);',
+                href: '#',
                 title: `动态-${i + 1}`,
                 avatar: require(`../../../assets/images/${i + 1}.png`),
                 img: require(`../../../assets/images/b${i + 1}.jpg`),

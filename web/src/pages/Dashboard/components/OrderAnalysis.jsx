@@ -9,7 +9,12 @@ const OrderAnalysis = () => {
             boundaryGap: false,
             axisTick: {
                 show: false
-            }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#008acd' // x轴颜色
+                }
+            },
         },
         grid: {
             left: 10,
@@ -29,7 +34,12 @@ const OrderAnalysis = () => {
             type: 'value',
             axisTick: {
                 show: false
-            }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#008acd' // y轴颜色
+                }
+            },
         },
         legend: {
             data: ['预期', '实际']
@@ -73,7 +83,7 @@ const OrderAnalysis = () => {
     return (
         <Card title='销量分析' style={{ marginBottom: '1vw' }}>
             <ReactECharts
-                style={ {height: '23.1vw'}}
+                style={{ height: '23.1vw' }}
                 option={option}
                 theme="macarons"
                 notMerge={true}
