@@ -1,48 +1,43 @@
-import { Card, Col, Row } from 'antd';
+import './index.less';
+import { Col, Row } from 'antd';
 import WelcomeBack from './components/WelcomeBack';
 import OrderAnalysis from './components/OrderAnalysis';
 import QuickStart from './components/QuickStart';
-import './index.less';
+import ProductIndex from './components/ProductIndex';
+import Team from './components/Team';
+import OngoingTasks from './components/OngoingTasks';
+import Trends from './components/Trends';
 
 const Dashboard = () => {
   return (
-    <>
+    <div>
+      {/* 欢迎回来 */}
       <WelcomeBack />
+
       <Row gutter={20} style={{ margin: '1vw 0' }}>
-        <Col span={16}>
+        <Col xs={24} sm={24} md={24} lg={16} xl={16}>
           {/* 销量分析 */}
-          <Card title='销量分析'>
-            <OrderAnalysis />
-          </Card>
+          <OrderAnalysis />
 
           {/* 进行中的任务 */}
-          <Card title='进行中的任务' extra={<a href="#">全部</a>}>
-
-          </Card>
-
-          {/* 动态 */}
-          <Card title='动态'>
-
-          </Card>
+          <OngoingTasks />
         </Col>
-        <Col span={8}>
+
+        <Col xs={24} sm={24} md={24} lg={8} xl={8}>
           {/* 快速开始 / 便捷导航 */}
-          <Card title='快速开始 / 便捷导航'>
-            <QuickStart />
-          </Card>
+          <QuickStart />
 
           {/* 产品指数 */}
-          <Card title='产品指数'>
+          <ProductIndex />
 
-          </Card>
-
-          {/* 开发人员 */}
-          <Card title='开发人员'>
-
-          </Card>
+          {/* 开发团队 */}
+          <Team />
         </Col>
       </Row>
-    </>
+
+      {/* 动态 */}
+      <Trends />
+    </div>
   );
 };
 

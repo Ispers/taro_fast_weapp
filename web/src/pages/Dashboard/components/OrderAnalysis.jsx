@@ -1,3 +1,4 @@
+import { Card } from 'antd';
 import ReactECharts from 'echarts-for-react';
 
 const OrderAnalysis = () => {
@@ -70,12 +71,15 @@ const OrderAnalysis = () => {
     };
 
     return (
-        <ReactECharts
-            option={option}
-            theme='macarons'
-            notMerge={true}
-            lazyUpdate={true}
-        />
+        <Card title='销量分析' style={{ marginBottom: '1vw' }}>
+            <ReactECharts
+                style={ {height: '23.1vw'}}
+                option={option}
+                theme="macarons"
+                notMerge={true}
+                lazyUpdate={true}
+            />
+        </Card>
     );
 };
 
