@@ -1,6 +1,6 @@
 import { Avatar, Card } from "antd";
-import Meta from "antd/es/card/Meta";
 import { useState, useEffect } from "react";
+import ErrorBoundary from "../../../components/ErrorBoundary";
 
 const OngoingTasks = () => {
     const [tasksData, setTasksData] = useState([]);
@@ -17,28 +17,30 @@ const OngoingTasks = () => {
     }, []);
 
     return (
-        <Card title="进行中的任务" extra={<a href="#">全部</a>} style={{ marginBottom: '1vw' }}>
-            {
-                tasksData.map((item, index) => (
-                    <Card.Grid style={{ width: '33.33%' }} key={index}>
-                        <Meta
-                            style={{ height: '5vw' }}
-                            title={
-                                <div className="meta-title">
-                                    <Avatar size={"small"} src={require(`../../../assets/images/${item.title}.png`)} />
-                                    <a>{item.title}</a>
-                                </div>
-                            }
-                            description={item.description}
-                        />
-                        <div className="meta-item">
-                            <a>{item.by}</a>
-                            <div>{`${item.time}小时前`}</div>
-                        </div>
-                    </Card.Grid>
-                ))
-            }
-        </Card>
+        <ErrorBoundary>
+            <Card title="进行中的任务" extra={<a href="#">全部</a>} style={{ marginBottom: '1vw' }}>
+                {
+                    tasksData.map((item, index) => (
+                        <Card.Grid style={{ width: '33.33%' }} key={index}>
+                            <Card.Meta
+                                style={{ height: '5vw' }}
+                                title={
+                                    <div className="meta-title">
+                                        <Avatar size={"small"} src={require(`../../../assets/images/${item.title}.png`)} />
+                                        <a>{item.title}</a>
+                                    </div>
+                                }
+                                description={item.description}
+                            />
+                            <div className="meta-item">
+                                <a>{item.by}</a>
+                                <div>{`${item.time}小时前`}</div>
+                            </div>
+                        </Card.Grid>
+                    ))
+                }
+            </Card>
+        </ErrorBoundary>
     );
 };
 
